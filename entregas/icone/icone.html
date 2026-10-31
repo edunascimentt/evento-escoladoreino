@@ -1,0 +1,32 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;box-sizing:border-box}
+body{width:2160px;height:2160px;overflow:hidden;background:#0C0F10;font-family:Poppins,sans-serif}
+.c{position:relative;width:2160px;height:2160px;overflow:hidden;background:#0C0F10}
+.photo{position:absolute;inset:0;background:url(pastor-1600.jpg) 50% 0/2000px auto no-repeat;background-position:50% -470px;filter:saturate(1.05) contrast(1.05)}
+.tint{position:absolute;inset:0;background:radial-gradient(38% 34% at 50% 40%,transparent 60%,rgba(143,55,0,.75) 100%);mix-blend-mode:color}.dim{position:absolute;inset:0;background:radial-gradient(40% 36% at 50% 40%,transparent 55%,rgba(12,15,16,.55) 100%)}
+.shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(12,15,16,.55) 0%,rgba(12,15,16,0) 18%,rgba(12,15,16,0) 42%,rgba(12,15,16,.88) 62%,#0C0F10 74%)}
+.glow{position:absolute;left:50%;bottom:-300px;width:2200px;height:1300px;margin-left:-1100px;border-radius:50%;background:radial-gradient(closest-side,rgba(219,85,0,.42),transparent);filter:blur(30px)}
+.rays{position:absolute;left:50%;top:-1500px;width:3600px;height:3600px;margin-left:-1800px;background:repeating-conic-gradient(from 0deg at 50% 50%,rgba(255,217,189,.09) 0deg 4deg,transparent 4deg 13deg);-webkit-mask-image:radial-gradient(closest-side,#000,transparent 70%);mix-blend-mode:screen}
+.motes i{position:absolute;border-radius:50%;background:#ffd9bd;box-shadow:0 0 18px 4px rgba(255,170,110,.6)}
+.txt{position:absolute;left:0;right:0;top:1330px;text-align:center;color:#fff}
+.k{display:inline-flex;align-items:center;gap:24px;padding:20px 46px;border-radius:99px;background:#DB5500;color:#fff;font-weight:700;font-size:60px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:34px;box-shadow:0 20px 50px -10px rgba(219,85,0,.8)}
+.k b{width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:0 0 0 10px rgba(255,255,255,.3)}
+h1{font-size:196px;font-weight:800;line-height:.92;letter-spacing:-.04em;text-transform:uppercase}
+h1 em{font-style:normal;display:block;font-size:150px;margin-top:10px;background:linear-gradient(90deg,#f07a2a,#ffd9bd 50%,#f07a2a);-webkit-background-clip:text;color:transparent}
+.sub{margin-top:34px;font-size:64px;font-weight:600;color:rgba(255,255,255,.85)}
+.sub span{color:#f3a46b}
+</style></head><body><div class="c">
+<div class="photo"></div><div class="tint"></div><div class="dim"></div><div class="rays"></div><div class="shade"></div><div class="glow"></div>
+<div class="motes" id="m"></div>
+<div class="txt">
+  <div class="k"><b></b>Ao vivo · 04/11 · 20h</div>
+  <h1>O Arrebatamento<em>no fim dos tempos</em></h1>
+  <div class="sub">Escatologia · <span>Eduardo Reis</span></div>
+</div>
+</div>
+<script>
+const m=document.getElementById('m');let s=7;const r=()=>{s=(s*9301+49297)%233280;return s/233280};
+for(let i=0;i<22;i++){const e=document.createElement('i');const z=5+r()*9;let x=r()*2160,y=r()*1200;if(x>650&&x<1510&&y>420)continue;e.style.cssText=`left:${x}px;top:${y}px;width:${z}px;height:${z}px;opacity:${.3+r()*.7}`;m.appendChild(e)}
+</script></body></html>
