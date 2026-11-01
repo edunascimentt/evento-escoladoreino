@@ -1,7 +1,7 @@
 # evento-escoladoreino (project memory)
 
 - 2026-10-31: Built for the Escola do Reino team: capture page (not a landing page) for the free live
-  class "O arrebatamento no final dos tempos" (Escatologia Completa, Eduardo Reis, 2026-11-04 20h).
+  class "O arrebatamento no final dos tempos" (Escatologia Completa, Eduardo Reis, 2026-11-05 20h).
   Page 1 = event info + form; page 2 = only the WhatsApp group button (class link is sent only in the group).
 - User decisions: separate Worker; workers.dev address for now, Escola do Reino subdomain added later;
   data must land in the existing escoladoreino.com D1/admin (not a separate DB); reuse the site's

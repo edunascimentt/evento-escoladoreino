@@ -6,7 +6,7 @@ code, comments and commits stay in English.
 ## What this is
 
 Capture page for the free live class **"O arrebatamento no final dos tempos"** (series Escatologia
-Completa, teacher Eduardo Reis, Wed 2026-11-04 20:00 BRT) of the Escola do Reino.
+Completa, teacher Eduardo Reis, Thu 2026-11-05 20:00 BRT) of the Escola do Reino.
 
 - Live: https://escatologia.escoladoreino.com (also https://evento-escoladoreino.polaris-web.workers.dev)
 - Flow: `/` (event page + 3-step form: name → WhatsApp → e-mail + consent) → `/grupo`
@@ -37,8 +37,8 @@ Completa, teacher Eduardo Reis, Wed 2026-11-04 20:00 BRT) of the Escola do Reino
 | WhatsApp group cover image | `entregas/icone/icone.html` (render to PNG 2160×2160) |
 
 - **WhatsApp group link:** `WHATSAPP_GROUP_URL` in `wrangler.jsonc`. Change it, push.
-- **Class date/time:** appears in `public/index.html` (`data-countdown="2026-11-04T20:00:00-03:00"`,
-  twice, plus visible texts "4 de novembro", "Qua · 04/11 · 20h", ticker, sticky bar),
+- **Class date/time:** appears in `public/index.html` (`data-countdown="2026-11-05T20:00:00-03:00"`,
+  twice, plus visible texts "5 de novembro", "Qui · 05/11 · 20h", ticker, sticky bar),
   `public/grupo.html` (recap list) and `AULA_NOME` in `wrangler.jsonc`.
 
 ## Data (important)

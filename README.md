@@ -1,6 +1,6 @@
 # Evento Escola do Reino — aula "O arrebatamento no final dos tempos"
 
-Sign-up page for the free live class (Escatologia Completa, Eduardo Reis, Wed 2026-11-04 20:00 BRT).
+Sign-up page for the free live class (Escatologia Completa, Eduardo Reis, Thu 2026-11-05 20:00 BRT).
 Flow: `/` (capture form) → `/grupo` (button to the WhatsApp group, where the class link is sent).
 
 - Worker `evento-escoladoreino` — https://escatologia.escoladoreino.com (also https://evento-escoladoreino.polaris-web.workers.dev). Push to `main` deploys. See CLAUDE.md for the full guide.
