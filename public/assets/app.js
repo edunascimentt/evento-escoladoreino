@@ -203,7 +203,7 @@
   var btnTxt = $('.btn-txt', btn);
   var MSG = {
     name: 'Coloque seu nome para a gente saber quem é você.',
-    phone: 'Confira o WhatsApp: precisa do DDD + número.',
+    phone: 'Confira o WhatsApp: no Brasil, DDD + número; fora, escolha o país. Ou deixe em branco.',
     email: 'Esse e-mail parece incompleto. Dá uma olhadinha?',
     agree: 'Marque a caixinha para receber o link da aula.',
     rate: 'Muitas tentativas seguidas. Espere um minutinho e tente de novo.',
@@ -211,24 +211,85 @@
   };
   var CHECK = {
     name: function (v) { return v.trim().length >= 2; },
-    phone: function (v) { var d = v.replace(/\D/g, ''); return d.length >= 10 && d.length <= 13; },
+    // WhatsApp is optional (empty passes). Brazil: DDD + number. Abroad: full number 8-15 digits.
+    phone: function (v) {
+      var d = digits(v);
+      if (!d) return true;
+      if (country.value === '55') return d.length >= 10 && d.length <= 11;
+      return intl(v).length >= 9 && intl(v).length <= 16;
+    },
     email: function (v) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()); }
   };
 
+  /* WhatsApp: país (código de discagem) + número. Brasil usa a máscara (11) 98765-4321. */
   var phone = form.elements.phone;
-  phone.addEventListener('input', function () {
-    var d = phone.value.replace(/\D/g, '');
+  var country = form.elements.country;
+  var dial = country.closest('.dial');
+  var dialFlag = $('[data-dial-flag]', form);
+  var dialCode = $('[data-dial-code]', form);
+  var phoneLabel = $('[data-phone-label]', form);
+  var CODES = $$('option', country).map(function (o) { return o.value; })
+    .filter(function (c) { return c !== 'other'; })
+    .sort(function (a, b) { return b.length - a.length; });
+  function digits(v) { return v.replace(/\D/g, ''); }
+  // Number sent to the server: '' (skipped), Brazil as national digits, abroad as +<code><number>.
+  function intl(v) {
+    var d = digits(v);
+    if (!d) return '';
+    if (country.value === 'other') return '+' + d;
+    if (country.value !== '39') d = d.replace(/^0+/, ''); // drop trunk 0 (07911… in the UK); Italy keeps it
+    return '+' + country.value + d;
+  }
+  function phoneValue() { return country.value === '55' ? digits(phone.value) : intl(phone.value); }
+  function syncCountry(pop) {
+    var o = country.options[country.selectedIndex];
+    dialFlag.textContent = o.getAttribute('data-flag');
+    dialCode.textContent = o.value === 'other' ? '+ …' : '+' + o.value;
+    phoneLabel.textContent = o.value === '55' ? 'WhatsApp com DDD' : o.value === 'other' ? 'Número com +código do país' : 'Número do WhatsApp';
+    phone.setAttribute('autocomplete', o.value === 'other' ? 'tel' : 'tel-national');
+    if (pop && !reduce) { dial.classList.remove('pop'); void dial.offsetWidth; dial.classList.add('pop'); }
+  }
+  function formatPhone() {
+    var raw = phone.value;
+    // Typed or pasted with +code (or 00code): pick the country from it.
+    if (/^\s*(\+|00)/.test(raw)) {
+      var all = digits(raw).replace(/^00/, '');
+      var hit = CODES.filter(function (c) { return all.indexOf(c) === 0; })[0];
+      if (hit) {
+        if (country.value !== hit) { country.value = hit; syncCountry(true); }
+        raw = all.slice(hit.length);
+      } else {
+        if (all.length >= 3 && country.value !== 'other') { country.value = 'other'; syncCountry(true); }
+        phone.value = '+' + all.slice(0, 15);
+        return;
+      }
+    }
+    var d = digits(raw);
+    if (country.value === 'other') { phone.value = d ? '+' + d.slice(0, 15) : ''; return; }
+    if (country.value !== '55') { phone.value = d.slice(0, 15 - country.value.length); return; }
     if (d.length > 11 && d.indexOf('55') === 0) d = d.slice(2);
     d = d.slice(0, 11);
     var out = d;
     if (d.length > 2) out = '(' + d.slice(0, 2) + ') ' + d.slice(2);
     if (d.length > 6) out = '(' + d.slice(0, 2) + ') ' + d.slice(2, d.length - 4) + '-' + d.slice(-4);
     phone.value = out;
+  }
+  phone.addEventListener('input', function () { formatPhone(); navLabel(); });
+  country.addEventListener('change', function () {
+    syncCountry(true);
+    // A country picked by hand wins over a "+code" left in the field (from "Outro país").
+    if (country.value !== 'other') phone.value = digits(phone.value);
+    formatPhone();
+    phone.removeAttribute('aria-invalid');
+    errBox.hidden = true;
+    phone.closest('.field').classList.toggle('valid', !!digits(phone.value) && CHECK.phone(phone.value));
+    phone.focus({ preventScroll: true });
   });
+  syncCountry(false);
 
   Object.keys(CHECK).forEach(function (n) {
     var el = form.elements[n];
-    var mark = function () { el.closest('.field').classList.toggle('valid', CHECK[n](el.value)); };
+    var mark = function () { el.closest('.field').classList.toggle('valid', !!el.value.trim() && CHECK[n](el.value)); };
     el.addEventListener('input', function () { el.removeAttribute('aria-invalid'); errBox.hidden = true; mark(); });
     el.addEventListener('blur', mark);
   });
@@ -254,7 +315,7 @@
       if (on) { void s.offsetWidth; s.classList.add(dir); }
     });
     if (stepNum) stepNum.textContent = step;
-    btnTxt.textContent = step === LAST ? 'Garantir vaga' : 'Continuar';
+    navLabel();
     errBox.hidden = true;
     if (step === 2 && hello) {
       var first = form.elements.name.value.trim().split(' ')[0];
@@ -264,6 +325,10 @@
       var input = $('.step.active input', form);
       if (input) setTimeout(function () { input.focus({ preventScroll: true }); }, 60);
     }
+  }
+  // Button text: "Pular" on the WhatsApp step while it is empty (the number is optional).
+  function navLabel() {
+    btnTxt.textContent = step === LAST ? 'Garantir vaga' : step === STEP_OF.phone && !digits(phone.value) ? 'Pular' : 'Continuar';
   }
   var startedForm = false;
   var markStart = function () { if (!startedForm) { startedForm = true; px.custom('IniciouInscricao', { aula: 'arrebatamento' }); } };
@@ -305,7 +370,7 @@
       credentials: 'same-origin',
       body: JSON.stringify({
         name: name,
-        phone: phone.value,
+        phone: phoneValue(),
         email: form.elements.email.value.trim(),
         agree: form.elements.agree.checked,
         website: form.elements.website.value,

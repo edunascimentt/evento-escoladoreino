@@ -119,14 +119,47 @@
             </div>
 
             <div class="step" data-step="2">
-              <p class="q-kicker">Pergunta 2 de 3</p>
+              <p class="q-kicker">Pergunta 2 de 3 · opcional</p>
               <h3 class="q"><span data-hello>Prazer!</span> Qual o seu WhatsApp?</h3>
-              <p class="q-help">É por lá que chega o convite do grupo e o link da aula.</p>
-              <label class="field">
-                <input name="phone" type="tel" inputmode="tel" autocomplete="tel-national" placeholder=" " maxlength="20" required enterkeyhint="next" />
-                <span>WhatsApp com DDD</span>
-                <svg class="ok" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>
-              </label>
+              <p class="q-help">É por lá que chega o convite do grupo e o link da aula. Mora fora do Brasil? Escolha o país. Sem WhatsApp, pode pular.</p>
+              <!-- País: o valor é o código de discagem ("other" = a pessoa digita +código no número).
+                   app.js mostra só bandeira + código no botão; sem JS o select aparece normal. -->
+              <div class="phone-row">
+                <label class="dial">
+                  <span class="dial-show" aria-hidden="true"><b data-dial-flag>🇧🇷</b><span data-dial-code>+55</span><svg viewBox="0 0 24 24"><path d="m7 10 5 5 5-5"/></svg></span>
+                  <select name="country" aria-label="País do WhatsApp" autocomplete="tel-country-code">
+                    <option value="55" data-flag="🇧🇷" selected>🇧🇷 Brasil +55</option>
+                    <option value="351" data-flag="🇵🇹">🇵🇹 Portugal +351</option>
+                    <option value="1" data-flag="🇺🇸">🇺🇸 Estados Unidos / Canadá +1</option>
+                    <option value="34" data-flag="🇪🇸">🇪🇸 Espanha +34</option>
+                    <option value="44" data-flag="🇬🇧">🇬🇧 Reino Unido +44</option>
+                    <option value="353" data-flag="🇮🇪">🇮🇪 Irlanda +353</option>
+                    <option value="33" data-flag="🇫🇷">🇫🇷 França +33</option>
+                    <option value="39" data-flag="🇮🇹">🇮🇹 Itália +39</option>
+                    <option value="49" data-flag="🇩🇪">🇩🇪 Alemanha +49</option>
+                    <option value="41" data-flag="🇨🇭">🇨🇭 Suíça +41</option>
+                    <option value="32" data-flag="🇧🇪">🇧🇪 Bélgica +32</option>
+                    <option value="31" data-flag="🇳🇱">🇳🇱 Holanda +31</option>
+                    <option value="352" data-flag="🇱🇺">🇱🇺 Luxemburgo +352</option>
+                    <option value="81" data-flag="🇯🇵">🇯🇵 Japão +81</option>
+                    <option value="61" data-flag="🇦🇺">🇦🇺 Austrália +61</option>
+                    <option value="64" data-flag="🇳🇿">🇳🇿 Nova Zelândia +64</option>
+                    <option value="54" data-flag="🇦🇷">🇦🇷 Argentina +54</option>
+                    <option value="595" data-flag="🇵🇾">🇵🇾 Paraguai +595</option>
+                    <option value="598" data-flag="🇺🇾">🇺🇾 Uruguai +598</option>
+                    <option value="56" data-flag="🇨🇱">🇨🇱 Chile +56</option>
+                    <option value="52" data-flag="🇲🇽">🇲🇽 México +52</option>
+                    <option value="244" data-flag="🇦🇴">🇦🇴 Angola +244</option>
+                    <option value="258" data-flag="🇲🇿">🇲🇿 Moçambique +258</option>
+                    <option value="other" data-flag="🌐">🌐 Outro país</option>
+                  </select>
+                </label>
+                <label class="field">
+                  <input name="phone" type="tel" inputmode="tel" autocomplete="tel-national" placeholder=" " maxlength="22" enterkeyhint="next" />
+                  <span data-phone-label>WhatsApp com DDD</span>
+                  <svg class="ok" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>
+                </label>
+              </div>
             </div>
 
             <div class="step" data-step="3">

@@ -92,10 +92,30 @@ async function sha256(v: string): Promise<string> {
   return [...new Uint8Array(d)].map((b) => b.toString(16).padStart(2, '0')).join('');
 }
 const hashed = async (v: string | null | undefined) => (v ? [await sha256(v.trim().toLowerCase())] : undefined);
+// Stored phones: Brazilian ones as national digits (DDD + number), foreign ones as "+<code><number>".
 const phone55 = (p: string | null | undefined) => {
   const d = (p ?? '').replace(/\D/g, '');
-  return d ? (d.length <= 11 ? `55${d}` : d) : null;
+  if (!d) return null;
+  if ((p ?? '').trim().startsWith('+')) return d;
+  return d.length <= 11 ? `55${d}` : d;
 };
+
+// WhatsApp from the form (optional). Returns null when left blank, false when invalid.
+// Brazil (no "+", or "+55") keeps the national digits the main site already uses;
+// any other country is kept as "+<code><number>" (E.164, 8-15 digits).
+function normPhone(raw: unknown): string | null | false {
+  const s = String(raw ?? '').trim();
+  const d = s.replace(/\D/g, '');
+  if (!d) return null;
+  if (s.startsWith('+')) {
+    if (d.startsWith('55')) {
+      const br = d.slice(2);
+      return br.length >= 10 && br.length <= 11 ? br : false;
+    }
+    return d.length >= 8 && d.length <= 15 ? `+${d}` : false;
+  }
+  return d.length >= 10 && d.length <= 13 ? d : false;
+}
 
 interface CapiEvent {
   name: string;
@@ -184,9 +204,9 @@ async function signup(req: Request, env: Env, ctx: ExecutionContext): Promise<Re
 
   const name = clip(body.name, 120);
   const email = clip(body.email, 200)?.toLowerCase() ?? null;
-  const phone = String(body.phone ?? '').replace(/\D/g, '');
+  const phone = normPhone(body.phone);
   if (!name || name.length < 2) return json({ ok: false, error: 'name' }, 400);
-  if (phone.length < 10 || phone.length > 13) return json({ ok: false, error: 'phone' }, 400);
+  if (phone === false) return json({ ok: false, error: 'phone' }, 400);
   if (!email || !EMAIL_RE.test(email)) return json({ ok: false, error: 'email' }, 400);
   if (body.agree !== true) return json({ ok: false, error: 'agree' }, 400);
 
