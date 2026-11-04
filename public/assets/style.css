@@ -84,7 +84,7 @@ p { overflow-wrap: break-word; }
 .top.scrolled .top-bar { opacity: 1; }
 
 /* ───────── Hero ───────── */
-.hero { --mx: 70%; --my: 30%; position: relative; overflow: hidden; isolation: isolate; color: #fff; background: radial-gradient(120% 80% at 50% -10%, #2a1a10 0%, var(--night) 55%); padding-top: 104px; }
+.hero { --mx: 70%; --my: 30%; position: relative; overflow: hidden; overflow: clip; isolation: isolate; color: #fff; background: radial-gradient(120% 80% at 50% -10%, #2a1a10 0%, var(--night) 55%); padding-top: 104px; }
 .hero::before { content: ""; position: absolute; z-index: -1; inset: 0; background-image: linear-gradient(rgba(255, 255, 255, .045) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .045) 1px, transparent 1px); background-size: 56px 56px; -webkit-mask-image: radial-gradient(60% 60% at 60% 30%, #000, transparent 75%); mask-image: radial-gradient(60% 60% at 60% 30%, #000, transparent 75%); }
 .hero::after { content: ""; position: absolute; z-index: -1; inset: 0; background: radial-gradient(520px circle at var(--mx) var(--my), rgba(243, 164, 107, .13), transparent 60%); pointer-events: none; }
 .hero-aurora { position: absolute; z-index: -1; border-radius: 50%; filter: blur(70px); pointer-events: none; }
