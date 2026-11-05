@@ -43,7 +43,7 @@
   "vars": {
     // WhatsApp group invite (https://chat.whatsapp.com/...). Empty = the thank-you page
     // shows "convite sendo liberado" instead of the button. Change here and redeploy.
-    "WHATSAPP_GROUP_URL": "https://chat.whatsapp.com/BvEBC3xzuDuHVKp0eOp2Fe?s=cl&p=i&mlu=4&ilr=4&iam=2",
+    "WHATSAPP_GROUP_URL": "https://chat.whatsapp.com/DFPg9Ig9FVm1CcThaSFyP9?s=cl&p=i&mlu=4&ilr=4&iam=2",
     // Identifies this class in leads.landing_path and in the events' data.
     "AULA_SLUG": "aula-arrebatamento",
     // Meta Pixel da Escola do Reino (same as escoladoreino.com). Conversions API needs the
